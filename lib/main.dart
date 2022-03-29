@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:realestateapp/screens/createPost.dart';
 import 'package:realestateapp/screens/home.dart';
@@ -6,11 +5,16 @@ import 'package:realestateapp/screens/login.dart';
 import 'package:realestateapp/screens/post.dart';
 import 'package:realestateapp/screens/profile.dart';
 import 'package:realestateapp/screens/signup.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-Future main() async {
+
+
+
+Future<void> main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp();
+  
   runApp(const MyApp());
 }
 
@@ -26,7 +30,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: {
-        "/": (context) => Home(),
+        "/": (context) => SignUp(),//Home(),
         "/login": (context) => Login(),
         "/signUp": (context) => SignUp(),
         "/profile": (context) => Profile(),
