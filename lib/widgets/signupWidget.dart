@@ -40,7 +40,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
           FirebaseFirestore firestore = FirebaseFirestore.instance;
           CollectionReference users = firestore.collection("users");
 
-          await users.add({
+          await users.doc(user.uid).set({
             'user_id': auth.currentUser?.uid,
             'full_name': fullName.text,
             'phoneNumber': phoneNumber.text,

@@ -6,6 +6,7 @@ import 'package:realestateapp/screens/post.dart';
 import 'package:realestateapp/screens/profile.dart';
 import 'package:realestateapp/screens/signup.dart';
 import 'package:firebase_core/firebase_core.dart';
+import './model/user.dart';
 
 
 
