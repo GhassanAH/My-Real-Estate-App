@@ -4,9 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import '../model/user.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:path/path.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -18,6 +20,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   File? profilePhoto;
   Userinfo? userinfo;
+  User? user;
   var loading = false;
 
   initState() {
@@ -27,14 +30,15 @@ class _ProfileState extends State<Profile> {
 
   Future<void> getUserInfo() async {
     FirebaseAuth auth = FirebaseAuth.instance;
-    User? user = auth.currentUser;
+    user = auth.currentUser;
     if (user != null) {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
-      DocumentReference document = firestore.collection("users").doc(user.uid);
+      DocumentReference document = firestore.collection("users").doc(user?.uid);
       DocumentSnapshot? data;
+      String? email =  user?.email;
       await document.get().then((value) => {data = value});
       setState(() {
-        userinfo = Userinfo(data!['full_name'], user.email!,
+        userinfo = Userinfo(data!['full_name'],email!,
             data!['phoneNumber'], data!['userType'], data!['userName']);
       });
     }
@@ -44,11 +48,23 @@ class _ProfileState extends State<Profile> {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
 
-      if (image == null) {
+      if (image == null || userinfo == null) {
         return;
       }
-
-      final imageFile = File(image.path);
+      String ? path = image.path;
+      File? imageFile = File(path);
+      final pathName = basename(imageFile.path);
+      String ? userId = user?.uid;
+      final destination = 'profilePhotos/$userId/$pathName';
+      try{
+          final file  = FirebaseStorage
+                              .instance
+                              .ref(destination)
+                              .child('profile/');
+          await file.putFile(imageFile);
+      }catch(e){
+          print(e);
+      }
       setState(() {
         this.profilePhoto = imageFile;
       });
@@ -56,6 +72,8 @@ class _ProfileState extends State<Profile> {
       print(e.message);
     }
   }
+
+
 
   Widget build(BuildContext context) {
     return Scaffold(
