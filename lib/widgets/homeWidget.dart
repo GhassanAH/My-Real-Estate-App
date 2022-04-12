@@ -1,85 +1,104 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-
 import 'package:flutter/material.dart';
+import 'package:realestateapp/screens/profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:realestateapp/screens/location.dart';
-
+import 'package:realestateapp/utils/authentication.dart';
 import '../model/poster.dart';
+import '../screens/images.dart';
+import '../screens/location.dart';
 import '../utils/constants.dart';
 import '../utils/posterServices.dart';
-import 'images.dart';
 
-class Post extends StatefulWidget {
-  Post({Key? key}) : super(key: key);
+class HomeWidget extends StatefulWidget {
+  const HomeWidget({Key? key}) : super(key: key);
 
   @override
-  State<Post> createState() => _PostState();
+  State<HomeWidget> createState() => _HomeWidgetState();
 }
 
-class _PostState extends State<Post> {
+class _HomeWidgetState extends State<HomeWidget> {
+  bool loading = false;
+  bool isSearching = false;
   List<PosterInfo> posters = [];
-  bool loading = true;
-  String? uid = FirebaseAuth.instance.currentUser!.uid;
 
-  void initState() {
-    super.initState();
-    setData();
+  Future<void> logoutUser() async {
+    setState(() {
+      loading = true;
+    });
+    Authentication().logout();
+    Navigator.of(context).pushReplacementNamed("/");
   }
 
-  Future<void> setData() async {
-    final post = await Poster().getPost("postId", uid);
+  Future<void> setData(String value) async {
+    final post = await Poster().getPost("governorate", value);
     setState(() {
       posters = post;
       loading = false;
     });
   }
 
-  Future<void> deleteData(PosterInfo deletedpost) async {
-    try {
-      setState(() {
-        loading = true;
-      });
-      await Poster().deleteMyPost(deletedpost);
-      final post = await Poster().getPost("postId", uid);
-      setState(() {
-        posters = post;
-        loading = false;
-      });
-    } catch (e) {
-      setState(() {
-        
-        loading = false;
-      });
-      print(e);
-    }
-  }
-
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("My Posts"),
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              size: 30,
+        drawer: appDrawer(context, logoutUser, "Profile"),
+        appBar: AppBar(
+          title: isSearching
+              ? TextField(
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    hintText: "Search By Goveronate",
+                    icon: Icon(Icons.place, color: Colors.white),
+                    hintStyle: TextStyle(color: Colors.white),
+                     
+                  ),
+                  enableSuggestions: true,
+                  
+                  onSubmitted: (value) {
+                    setState(() {
+                      loading = true;
+                    });
+                    setData(value);
+                  },
+                )
+              : Text("Home"),
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(
+                Icons.menu,
+                size: 30,
+              ),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
             ),
-            onPressed: () {
-              Navigator.of(context).pushReplacementNamed("/home");
-            },
           ),
+          actions: [
+            isSearching
+                ? IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isSearching = false;
+                      });
+                    },
+                    icon: Icon(Icons.close))
+                : IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isSearching = true;
+                      });
+                    },
+                    icon: Icon(Icons.search))
+          ],
+          backgroundColor: Colors.black87,
+          elevation: 0,
+          centerTitle: true,
         ),
-        backgroundColor: Colors.black87,
-        elevation: 0,
-        centerTitle: true,
-      ),
-      body: loading
-          ? SpinKitRotatingCircle(
-              color: Colors.black,
-              size: 50.0,
-            )
-          : ListView(
+        body: loading
+            ? SpinKitRotatingCircle(
+                color: Colors.black,
+                size: 50.0,
+              )
+            : ListView(
               children: posters.map((post) {
                 return Padding(
                   padding: const EdgeInsets.all(25.0),
@@ -93,18 +112,6 @@ class _PostState extends State<Post> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                             crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                    IconButton(
-                                        onPressed: () {
-                                          deleteData(post);
-                                        },
-                                        icon: Icon(Icons.close_sharp, size: 30,)
-                                        )
-                              ],
-                            ),
                             Text(
                               post.name!,
                               style: Theme.of(context).textTheme.headline4,
@@ -158,6 +165,7 @@ class _PostState extends State<Post> {
                 );
               }).toList(),
             ),
-    );
+            
+            );
   }
 }

@@ -45,15 +45,25 @@ class _SignUpWidgetState extends State<SignUpWidget> {
             'full_name': fullName.text,
             'phoneNumber': phoneNumber.text,
             'userName': userName.text,
-            'userType': _character.toString().split('.').last
+            'userType': _character.toString().split('.').last,
+            "profileImageUrl": ""
           });
 
           Navigator.of(context).pushReplacementNamed("/");
-        } else {}
+        } else {
+          
+        }
       } catch (e) {
-        print(e.toString());
+         setState(() {
+            loading = false;
+          });
       }
+    }else{
+      setState(() {
+            loading = false;
+     });
     }
+
   }
 
   bool isEmailValid(String email) {
@@ -226,8 +236,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                               onPressed: () {
                                 setState(() {
                                   loading = true;
-                                }
-                                );
+                                });
                                 signUpUser();
                               },
                               child: Text("SIGN UP"),
@@ -243,7 +252,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                   )
                 ],
               ),
-          ),
+            ),
     );
   }
 }

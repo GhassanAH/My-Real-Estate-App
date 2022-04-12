@@ -4,6 +4,9 @@ class Userinfo {
   String phoneNumber;
   String type;
   String username;
+  String imageUrl;
+  String ? id;
 
-  Userinfo(this.name,this.email,this.phoneNumber,this.type,this.username);
+  Userinfo(this.name, this.email, this.phoneNumber, this.type, this.username,
+      this.imageUrl, this.id);
 }

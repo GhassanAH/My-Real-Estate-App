@@ -18,6 +18,9 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   Future<void> LoginUser() async {
     if (formGlobalKeyLogin.currentState!.validate()) {
+      setState(() {
+        loading = true;
+      });
       try {
         FirebaseAuth auth = FirebaseAuth.instance;
         UserCredential userCredential = await auth.signInWithEmailAndPassword(
@@ -120,9 +123,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       children: [
                                         ElevatedButton(
                                           onPressed: () {
-                                            setState(() {
-                                              loading = true;
-                                            });
+                                        
                                             LoginUser();
                                           },
                                           child: Text("Login"),

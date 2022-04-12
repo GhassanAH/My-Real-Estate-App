@@ -29,13 +29,19 @@ class MyApp extends StatelessWidget {
       title: 'My Real Estate',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        textTheme: const TextTheme(
+            headline1: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+            headline6: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
+            bodyText2: TextStyle(fontSize: 18.0),
+    ),
       ),
+      
       routes: {
         "/": (context) => Login(),
         "/home": (context) => Home(),
         "/signUp": (context) => SignUp(),
         "/profile": (context) => Profile(),
-        "/post": (context) => Post(),
+        "/poster": (context) => Post(),
         "/create_post": (context) => CreatePost(),
       },
     );
