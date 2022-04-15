@@ -5,12 +5,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 import '../model/poster.dart';
 
 class Poster {
-  Future<void> uploadPoster(String? uid, PosterInfo post) async {
+  Future<void> uploadPoster(PosterInfo post) async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     CollectionReference users = firestore.collection("posters");
 
     await users.doc().set({
-      'postId': uid,
+      'postId': post.userId,
       'name': post.name,
       'type': post.type,
       'price': post.price,
@@ -54,6 +54,7 @@ class Poster {
           element.data()["image6"],
           element.data()["image7"],
           element.id,
+          element.data()["postId"],
           element.data()["governorate"]
         );
         postList.add(post);

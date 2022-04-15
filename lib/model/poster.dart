@@ -14,6 +14,7 @@ class PosterInfo {
   String? img6;
   String? img7;
   String? id;
+  String? userId;
   String? governorate;
 
   PosterInfo(
@@ -32,5 +33,6 @@ class PosterInfo {
       this.img6,
       this.img7,
       this.id,
+      this.userId,
       this.governorate);
 }

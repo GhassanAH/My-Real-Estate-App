@@ -148,8 +148,9 @@ class _CreatePostState extends State<CreatePost> {
           img6,
           img7,
           "",
+          widget.uid,
           governorate);
-      await Poster().uploadPoster(widget.uid, post);
+      await Poster().uploadPoster(post);
       Navigator.of(context).pushReplacementNamed("/poster");
     } else {
       setState(() {

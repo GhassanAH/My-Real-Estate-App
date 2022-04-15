@@ -35,7 +35,7 @@ class UploadImage {
         .doc(userId)
         .update({'profileImageUrl': imageUrl});
     Authentication auths = Authentication();
-    await auths.getUserInfo();
+    await auths.getUserInfo("");
     return auths.userinfo;
   }
 

@@ -10,7 +10,9 @@ import '../utils/constants.dart';
 import '../utils/uploadImages.dart';
 
 class ProfileWidget extends StatefulWidget {
-  const ProfileWidget({Key? key}) : super(key: key);
+  String? userId;
+
+  ProfileWidget({Key? key, required this.userId}) : super(key: key);
 
   @override
   State<ProfileWidget> createState() => _ProfileWidgetState();
@@ -31,10 +33,12 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   Future<void> getUserInfo() async {
     try {
       Authentication auths = Authentication();
-      await auths.getUserInfo();
+      await auths.getUserInfo(widget.userId!);
 
       setState(() {
+       
         userinfo = auths.userinfo;
+        print(userinfo);
         loading = false;
       });
     } catch (e) {
@@ -44,8 +48,6 @@ class _ProfileWidgetState extends State<ProfileWidget> {
       createSnackBar(_scaffoldKey, "something went wrong");
     }
   }
-
-  
 
   Future<void> pickImage() async {
     try {
@@ -96,11 +98,20 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                   child: Card(
                                     color: Colors.black,
                                     child: Center(
-                                      child: Text("My Information",
+                                      child: widget.userId!.isEmpty? Text("My Information",
                                           style: TextStyle(
                                               fontSize: 30,
                                               fontWeight: FontWeight.w900,
-                                              color: Colors.white)),
+                                              color: Colors.white)
+                                              ):
+                                              Text("Seller Information",
+                                                style: TextStyle(
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.w900,
+                                                color: Colors.white
+                                                )
+                                              )
+                                              
                                     ),
                                   ),
                                 ),
@@ -121,7 +132,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                               height: 150,
                                               fit: BoxFit.cover,
                                             )),
-                                  Positioned(
+                                  
+                                  widget.userId!.isEmpty? Positioned(
                                       bottom: 10,
                                       right:
                                           10, //give the values according to your requirement
@@ -138,7 +150,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         onPressed: () {
                                           pickImage();
                                         },
-                                      )),
+                                      )
+                                    ): SizedBox()
                                 ],
                               ),
                               Container(
@@ -280,19 +293,20 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                 )
               ],
             ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: widget.userId!.isEmpty? FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: (() {
           print(userinfo?.id);
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(                                                                       //new
-              settings: const RouteSettings(name: '/create_post'),                                              //new
-              builder: (context) => CreatePost(uid: userinfo?.id,) //new
-            )  
-            );
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              //new
+              settings: const RouteSettings(name: '/create_post'), //new
+              builder: (context) => CreatePost(
+                    uid: userinfo?.id,
+                  ) //new
+              ));
         }),
         child: Icon(Icons.add),
-      ),
+      ):null
     );
   }
 }

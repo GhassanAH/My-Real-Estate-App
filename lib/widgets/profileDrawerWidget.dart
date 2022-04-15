@@ -41,7 +41,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
         elevation: 0,
         centerTitle: true,
       ),
-      body: ProfileWidget(),
+      body: ProfileWidget(userId:""),
     );
   }
 }
