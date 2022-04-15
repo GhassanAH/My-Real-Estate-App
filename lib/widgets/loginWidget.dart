@@ -49,98 +49,137 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.lightBlue[200],
         body: loading
             ? SpinKitRotatingCircle(
                 color: Colors.black,
                 size: 50.0,
               )
-            : Center(
-                child: Container(
-                    width: double.infinity,
-                    height: 500,
-                    padding: EdgeInsets.all(12.2),
-                    child: ListView(
-                      children: [
-                        Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(15.1),
-                            child: Form(
-                              key: formGlobalKeyLogin,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "Login Now",
-                                    style: TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.w800),
-                                  ),
-                                  SizedBox(
-                                    height: 30,
-                                  ),
-                                  TextFormField(
-                                    validator: (email) {
-                                      if (email!.isEmpty) {
-                                        return "The email can not be empty";
-                                      } else if (email.length > 150) {
-                                        return "The email is too long";
-                                      } else if (!isEmailValid(email)) {
-                                        return "Email format is invalid";
-                                      } else {
-                                        return null;
-                                      }
-                                    },
-                                    controller: email,
-                                    decoration: InputDecoration(
-                                        border: UnderlineInputBorder(),
-                                        labelText: "Email",
-                                        icon: Icon(Icons.email)),
-                                  ),
-                                  SizedBox(
-                                    height: 30,
-                                  ),
-                                  TextFormField(
-                                    validator: (password) {
-                                      if (password!.isEmpty) {
-                                        return "The password can not be empty";
-                                      } else {
-                                        return null;
-                                      }
-                                    },
-                                    controller: password,
-                                    obscureText: true,
-                                    decoration: InputDecoration(
-                                        border: UnderlineInputBorder(),
-                                        labelText: "Password",
-                                        icon: Icon(Icons.key)),
-                                  ),
-                                  SizedBox(height: 30),
-                                  Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        ElevatedButton(
-                                          onPressed: () {
-                                        
-                                            LoginUser();
-                                          },
-                                          child: Text("Login"),
-                                          style: ElevatedButton.styleFrom(
-                                            primary: Colors.black,
-                                            onPrimary: Colors.white,
-                                          ),
-                                        ),
-                                      ])
-                                ],
-                              ),
+            : Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage('assets/login_wall.jpg')
+
+                )
+              ),
+              child: Center(
+                  child: Container(
+                      width: double.infinity,
+                      height: 500,
+                      padding: EdgeInsets.all(0),
+                      child: ListView(
+                        children: [
+                          Container(
+
+                            padding: EdgeInsets.symmetric(horizontal: 0,vertical: 25),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage: AssetImage('assets/logo.jpg'),
+                                  radius: 40,
+                                ),
+                                Text('Login Now',style: TextStyle(color: Colors.white,fontSize: 30,fontWeight: FontWeight.bold),),
+                                SizedBox(
+                                  height: 16,
+                                ),
+                                Text('Welcome to Aqaar app',style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),),
+                                SizedBox(height: 16,),
+                                Divider(
+                                  height: 3,
+                                  thickness: 1,
+                                  indent: 60,
+                                  endIndent: 60,
+                                  color: Colors.white,
+                                )
+                              ],
                             ),
                           ),
-                        ),
-                      ],
-                    )),
-              )
+                          Card(
+
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(70),
+                            ),
+
+                            child: Padding(
+                              padding: EdgeInsets.all(15.1),
+                              child: Form(
+                                key: formGlobalKeyLogin,
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    TextFormField(
+                                      validator: (email) {
+                                        if (email!.isEmpty) {
+                                          return "The email can not be empty";
+                                        } else if (email.length > 150) {
+                                          return "The email is too long";
+                                        } else if (!isEmailValid(email)) {
+                                          return "Email format is invalid";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      controller: email,
+                                      decoration: InputDecoration(
+                                          border: UnderlineInputBorder(),
+                                          labelText: "Email",
+                                          icon: Icon(Icons.email)),
+                                    ),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    TextFormField(
+                                      validator: (password) {
+                                        if (password!.isEmpty) {
+                                          return "The password can not be empty";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      controller: password,
+                                      obscureText: true,
+                                      decoration: InputDecoration(
+                                          border: UnderlineInputBorder(),
+                                          labelText: "Password",
+                                          icon: Icon(Icons.key)),
+                                    ),
+                                    SizedBox(height: 30),
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          ElevatedButton(
+                                            onPressed: () {
+
+                                              LoginUser();
+                                            },
+                                            child: Text("Login"),
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.lightBlue,
+                                              onPrimary: Colors.white,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(20)
+                                              ),
+                                              padding: EdgeInsets.symmetric(horizontal: 40,vertical: 17)
+                                            ),
+                                          ),
+
+                                        ])
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                          ),
+                        ],
+                      )),
+                ),
+            )
         );
   }
 }

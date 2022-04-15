@@ -15,8 +15,8 @@ class _LoginState extends State<Login> {
     return Scaffold(
         appBar: AppBar(
             toolbarHeight: 60,
-            title: Text("Login"),
-            backgroundColor: Colors.black87,
+            leading: Icon(Icons.account_circle_outlined,size: 40,),
+            backgroundColor: Colors.lightBlue[400],
             elevation: 0,
             actions: [
               Padding(
@@ -27,6 +27,9 @@ class _LoginState extends State<Login> {
                   },
                   child: Text("Sign Up"),
                   style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)
+                    ),
                     primary: Colors.white,
                     onPrimary: Colors.black,
                   ),

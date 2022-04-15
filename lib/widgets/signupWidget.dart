@@ -74,19 +74,25 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.transparent,
       body: loading
           ? SpinKitRotatingCircle(
               color: Colors.black,
               size: 50.0,
             )
           : Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage('assets/login_wall.jpg')
+                )
+              ),
               padding: EdgeInsets.all(12.2),
               child: ListView(
                 children: [
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
+                  Container(
+                    color: Colors.transparent,
                     child: Padding(
                       padding: EdgeInsets.all(15.2),
                       child: Form(
@@ -96,7 +102,15 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                             Text(
                               "SignUp Now",
                               style: TextStyle(
-                                  fontSize: 30, fontWeight: FontWeight.w800),
+                                 color: Colors.amber ,fontSize: 30, fontWeight: FontWeight.w800),
+                            ),
+                            SizedBox(height: 15,),
+                            Divider(
+                              height: 10,
+                              indent: 60,
+                              endIndent: 60,
+                              thickness: 1,
+                              color: Colors.white,
                             ),
                             SizedBox(
                               height: 30,
@@ -112,10 +126,21 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                 }
                               },
                               controller: fullName,
+                              maxLength: 20,
+                              cursorColor: Colors.white,
+                              style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,),
                               decoration: InputDecoration(
-                                  border: UnderlineInputBorder(),
+                                filled: true,
+                                  labelStyle: TextStyle(color: Colors.white),
+                                  helperStyle: TextStyle(color: Colors.white),
+                                  fillColor: Colors.white30,
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white,width:1),
+                                    borderRadius: BorderRadius.circular(16)
+                                  ),
                                   labelText: "Full Name",
-                                  icon: Icon(Icons.person)),
+                                  icon: Icon(Icons.person,color: Colors.white,)),
+
                             ),
                             SizedBox(
                               height: 30,
@@ -132,10 +157,21 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                               },
                               controller: phoneNumber,
                               keyboardType: TextInputType.number,
+                              maxLength: 20,
+                              cursorColor: Colors.white,
+                              style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,),
                               decoration: InputDecoration(
-                                  border: UnderlineInputBorder(),
+                                  filled: true,
+                                  labelStyle: TextStyle(color: Colors.white),
+                                  helperStyle: TextStyle(color: Colors.white),
+                                  fillColor: Colors.white30,
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.white,width:1),
+                                      borderRadius: BorderRadius.circular(16)
+                                  ),
                                   labelText: "Phone Number",
-                                  icon: Icon(Icons.phone)),
+                                  helperText: '8 numbers',
+                                  icon: Icon(Icons.phone,color: Colors.white,)),
                             ),
                             SizedBox(
                               height: 30,
@@ -153,10 +189,21 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                 }
                               },
                               controller: email,
+                              maxLength: 50,
+                              cursorColor: Colors.white,
+                              style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,),
                               decoration: InputDecoration(
-                                  border: UnderlineInputBorder(),
+                                  filled: true,
+                                  labelStyle: TextStyle(color: Colors.white),
+                                  helperStyle: TextStyle(color: Colors.white),
+                                  fillColor: Colors.white30,
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.white,width:1),
+                                      borderRadius: BorderRadius.circular(16)
+                                  ),
                                   labelText: "Email",
-                                  icon: Icon(Icons.email)),
+                                  helperText: 'example@gmai.com',
+                                  icon: Icon(Icons.email,color: Colors.white,)),
                             ),
                             SizedBox(
                               height: 30,
@@ -173,10 +220,20 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                 }
                               },
                               controller: userName,
+                              maxLength: 20,
+                              cursorColor: Colors.white,
+                              style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,),
                               decoration: InputDecoration(
-                                  border: UnderlineInputBorder(),
+                                  filled: true,
+                                  fillColor: Colors.white30,
+                                  labelStyle: TextStyle(color: Colors.white),
+                                  helperStyle: TextStyle(color: Colors.white),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.white,width:1),
+                                      borderRadius: BorderRadius.circular(16)
+                                  ),
                                   labelText: "Username",
-                                  icon: Icon(Icons.verified_user)),
+                                  icon: Icon(Icons.verified_user,color: Colors.white,)),
                             ),
                             SizedBox(
                               height: 30,
@@ -193,17 +250,28 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                               },
                               controller: password,
                               obscureText: true,
+                              maxLength: 20,
+                              cursorColor: Colors.white,
+                              style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
-                                  border: UnderlineInputBorder(),
+                                  filled: true,
+                                  fillColor: Colors.white30,
+                                  labelStyle: TextStyle(color: Colors.white),
+                                  helperStyle: TextStyle(color: Colors.white),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.white,width:1),
+                                      borderRadius: BorderRadius.circular(16)
+                                  ),
                                   labelText: "Password",
-                                  icon: Icon(Icons.key)),
+
+                                  icon: Icon(Icons.key,color: Colors.white,)),
                             ),
                             SizedBox(height: 30),
                             Row(
                               children: [
                                 Expanded(
                                   child: ListTile(
-                                    title: Text('Seller'),
+                                    title: Text('Seller',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20)),
                                     leading: Radio<UserType>(
                                       value: UserType.seller,
                                       groupValue: _character,
@@ -216,8 +284,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                   ),
                                 ),
                                 Expanded(
+
                                   child: ListTile(
-                                    title: Text('Buyer'),
+                                    title: Text('Buyer',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),),
                                     leading: Radio<UserType>(
                                       value: UserType.buyer,
                                       groupValue: _character,
@@ -227,6 +296,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                         });
                                       },
                                     ),
+
                                   ),
                                 )
                               ],
@@ -241,7 +311,12 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                               },
                               child: Text("SIGN UP"),
                               style: ElevatedButton.styleFrom(
-                                primary: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16)
+                                ),
+                                padding: EdgeInsets.symmetric(horizontal: 60,vertical: 17),
+
+                                primary: Colors.lightBlue,
                                 onPrimary: Colors.white,
                               ),
                             ),
