@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import '../utils/constants.dart';
+
 class LoginWidget extends StatefulWidget {
   const LoginWidget({Key? key}) : super(key: key);
 
@@ -12,6 +14,7 @@ class LoginWidget extends StatefulWidget {
 
 class _LoginWidgetState extends State<LoginWidget> {
   final formGlobalKeyLogin = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   var email = TextEditingController();
   var password = TextEditingController();
   var loading = false;
@@ -32,12 +35,19 @@ class _LoginWidgetState extends State<LoginWidget> {
           setState(() {
             loading = false;
           });
+              createSnackBar(_scaffoldKey,
+          "Random error happened");
         }
       } catch (e) {
           setState(() {
             loading = false;
           });
+          createSnackBar(_scaffoldKey,
+          "Account dose not exists");
       }
+    }else{
+      createSnackBar(_scaffoldKey,
+          "Check input fields");
     }
   }
 
@@ -49,6 +59,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
         backgroundColor: Colors.lightBlue[200],
         body: loading
             ? SpinKitRotatingCircle(

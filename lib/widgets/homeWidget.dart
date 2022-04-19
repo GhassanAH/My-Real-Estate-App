@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:realestateapp/screens/profile.dart';
@@ -24,6 +26,12 @@ class _HomeWidgetState extends State<HomeWidget> {
   bool loading = false;
   bool isSearching = false;
   List<PosterInfo> posters = [];
+  String? selected;
+  List<String> choices = [
+    "Sort Poster by high price",
+    "Sort Poster by small price"
+  ];
+ 
 
   Future<void> logoutUser() async {
     setState(() {
@@ -39,6 +47,22 @@ class _HomeWidgetState extends State<HomeWidget> {
       posters = post;
       loading = false;
     });
+  }
+
+  void highPrice() {
+    if (posters.isNotEmpty) {
+      setState(() {
+        posters.sort((a, b) => b.price!.compareTo(a.price!));
+      });
+    }
+  }
+
+  void smallPrice() {
+    if (posters.isNotEmpty) {
+      setState(() {
+        posters.sort((a, b) => a.price!.compareTo(b.price!));
+      });
+    }
   }
 
   Widget build(BuildContext context) {
@@ -117,110 +141,132 @@ class _HomeWidgetState extends State<HomeWidget> {
                   image: DecorationImage(
                       fit: BoxFit.cover,
                       image: AssetImage('assets/wallpaper.jpg'))),
-              child: ListView(
-                children: posters.map((post) {
-                  return Padding(
-                    padding: const EdgeInsets.all(25.0),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                post.name!,
-                                style: Theme.of(context).textTheme.headline4,
-                              ),
-                              SizedBox(height: 20),
-                              Image.network(post.img0!),
-                              SizedBox(height: 20),
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Column(
+              child: ListView(children: [
+               Align(
+                 alignment: Alignment.topRight,
+                 child:  DropdownButton(
+                    value: selected,
+                    hint: Text("filter posters"),
+                    onChanged: (newValue) {
+                      if (newValue == "Sort Poster by high price") {
+                        highPrice();
+                      } else {
+                        smallPrice();
+                      }
+                    },
+                    items: choices.map((choice) {
+                      return DropdownMenuItem(
+                        child: Text(choice),
+                        value: choice,
+                      );
+                    }).toList()
+                    ),
+               ),
+      
+                Column(
+                  children: posters.map((post) {
+                    return Padding(
+                      padding: const EdgeInsets.all(25.0),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  post.name!,
+                                  style: Theme.of(context).textTheme.headline4,
+                                ),
+                                SizedBox(height: 20),
+                                Image.network(post.img0!),
+                                SizedBox(height: 20),
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Column(
+                                    children: [
+                                      CardHeading(
+                                          Icon(Icons.house), post.type!, 50),
+                                      CardHeading(Icon(Icons.place),
+                                          post.governorate!, 50),
+                                      CardHeading(
+                                          Icon(Icons.money), post.price!, 50),
+                                      CardHeading(
+                                          Icon(Icons.money_off_csred_sharp),
+                                          post.description!,
+                                          50),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    CardHeading(
-                                        Icon(Icons.house), post.type!, 50),
-                                    CardHeading(Icon(Icons.place),
-                                        post.governorate!, 50),
-                                    CardHeading(
-                                        Icon(Icons.money), post.price!, 50),
-                                    CardHeading(
-                                        Icon(Icons.money_off_csred_sharp),
-                                        post.description!,
-                                        50),
+                                    Align(
+                                        alignment: Alignment.topRight,
+                                        child: IconButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        location(
+                                                          post: post,
+                                                        )),
+                                              );
+                                            },
+                                            icon: Icon(
+                                              Icons.location_pin,
+                                              size: 30,
+                                            ))),
+                                    Align(
+                                        alignment: Alignment.center,
+                                        child: IconButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ViewSellerScreen(
+                                                            post: post)),
+                                              );
+                                              print(post.userId);
+                                            },
+                                            icon: Icon(
+                                              Icons.person,
+                                              size: 30,
+                                            ))),
+                                    Align(
+                                        alignment: Alignment.topLeft,
+                                        child: IconButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        DisplayImages(
+                                                          post: post,
+                                                        )),
+                                              );
+                                            },
+                                            icon: Icon(
+                                              Icons.image,
+                                              size: 30,
+                                            ))),
                                   ],
                                 ),
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Align(
-                                      alignment: Alignment.topRight,
-                                      child: IconButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      location(
-                                                        post: post,
-                                                      )),
-                                            );
-                                          },
-                                          icon: Icon(
-                                            Icons.location_pin,
-                                            size: 30,
-                                          ))),
-                                  Align(
-                                      alignment: Alignment.center,
-                                      child: IconButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ViewSellerScreen(
-                                                        post: post
-                                                      )),
-                                            );
-                                            print(post.userId);
-                                          },
-                                          icon: Icon(
-                                            Icons.person,
-                                            size: 30,
-                                          ))),
-                                  Align(
-                                      alignment: Alignment.topLeft,
-                                      child: IconButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      DisplayImages(
-                                                        post: post,
-                                                      )),
-                                            );
-                                          },
-                                          icon: Icon(
-                                            Icons.image,
-                                            size: 30,
-                                          ))),
-                                ],
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                }).toList(),
-              ),
+                    );
+                  }).toList(),
+                )
+              ]),
             ),
     );
   }

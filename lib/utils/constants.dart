@@ -26,7 +26,7 @@ Widget imageContainer(String title) {
 
 void createSnackBar(GlobalKey<ScaffoldState> scaffoldKey, String message) {
   final snackBar =
-      new SnackBar(content: new Text(message), backgroundColor: Colors.red);
+      new SnackBar( duration: const Duration(seconds: 800), content: new Text(message), backgroundColor: Colors.red);
 
   scaffoldKey.currentState?.showSnackBar(snackBar);
 }

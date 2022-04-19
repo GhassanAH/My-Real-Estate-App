@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import '../utils/constants.dart';
+
 enum UserType { seller, buyer }
 
 class SignUpWidget extends StatefulWidget {
@@ -15,6 +17,7 @@ class SignUpWidget extends StatefulWidget {
 
 class _SignUpWidgetState extends State<SignUpWidget> {
   final formGlobalKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   UserType? _character = UserType.seller;
   var fullName = TextEditingController();
   var phoneNumber = TextEditingController();
@@ -58,11 +61,15 @@ class _SignUpWidgetState extends State<SignUpWidget> {
          setState(() {
             loading = false;
           });
+        createSnackBar(_scaffoldKey,
+          "Account Already exists");
       }
     }else{
       setState(() {
             loading = false;
      });
+    createSnackBar(_scaffoldKey,
+          "check input fields");
     }
 
   }
@@ -75,6 +82,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
       body: loading

@@ -58,23 +58,27 @@ class _DisplayImagesState extends State<DisplayImages> {
         ),
         body: SingleChildScrollView(
             child: Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(12.2),
-              child: Column(
-                children: 
-                checkImage()
-                .map((url) {
-                  return     
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.network(url)
-                  );
+          width: double.infinity,
+          padding: EdgeInsets.all(12.2),
+          child: Column(
+              children: checkImage().map((url) {
+            return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.network(url, frameBuilder:
+                    (context, child, frame, wasSynchronouslyLoaded) {
+                  return child;
+                }, loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
                 }
-                
-                ).toList()
-              ),
-            )
-            )
-        );
+                )
+              );
+          }).toList()),
+        )));
   }
 }
