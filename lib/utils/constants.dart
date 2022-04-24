@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../utils/uploadImages.dart';
-
+import '../screens/curve_containe.dart';
 Widget imageContainer(String title) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
@@ -52,14 +52,20 @@ Widget CardHeading(Icon icon, String title, double wheight) {
 Widget appDrawer(BuildContext context, Function logoutUser, String title) {
   return Drawer(
     child: Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [Colors.orange, Colors.blue],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter)),
       padding: EdgeInsets.all(10),
+
       child: ListView(
         children: [
           ListTile(
             leading: Builder(
               builder: (context) => IconButton(
                 icon: Icon(
-                  Icons.arrow_back,
+                  Icons.arrow_circle_left_rounded,
                   size: 30,
                   color: Colors.black,
                 ),
@@ -72,16 +78,21 @@ Widget appDrawer(BuildContext context, Function logoutUser, String title) {
           SizedBox(
             height: 100,
           ),
+          Divider(
+            indent: 0,
+            endIndent: 0,
+            thickness: 2,
+            color: Colors.black,),
           ListTile(
             tileColor: Colors.black38,
             leading: Icon(
-              Icons.person,
+              Icons.person_pin,
               color: Colors.white,
             ),
             title: Text(
               title,
               style: TextStyle(
-                fontSize: 19.1,
+                fontSize: 19,
                 color: Colors.white,
               ),
             ),
@@ -89,13 +100,18 @@ Widget appDrawer(BuildContext context, Function logoutUser, String title) {
               Navigator.of(context).pushReplacementNamed(title == "Home"?"/home":"/profile");
             },
           ),
+          Divider(
+            indent: 0,
+            endIndent: 0,
+            thickness: 0.5,
+            color: Colors.black,),
           SizedBox(
             height: 20,
           ),
           ListTile(
             tileColor: Colors.black26,
             leading: Icon(
-              Icons.create,
+              Icons.post_add_rounded,
               color: Colors.white,
             ),
             title: Text(
@@ -109,13 +125,18 @@ Widget appDrawer(BuildContext context, Function logoutUser, String title) {
               Navigator.of(context).pushReplacementNamed("/poster");
             },
           ),
+          Divider(
+            indent: 0,
+            endIndent: 0,
+            thickness: 0.5,
+            color: Colors.black,),
           SizedBox(
             height: 20,
           ),
           ListTile(
             tileColor: Colors.black38,
             leading: Icon(
-              Icons.person,
+              Icons.logout_outlined,
               color: Colors.white,
             ),
             title: Text(
@@ -126,13 +147,18 @@ Widget appDrawer(BuildContext context, Function logoutUser, String title) {
               logoutUser();
             },
           ),
+          Divider(
+            indent: 0,
+            endIndent: 0,
+            thickness: 0.5,
+            color: Colors.black,),
           SizedBox(
-            height: 300,
+            height: 235,
           ),
           Container(
             child: Center(
-              child: Text("My Real Estate App",
-                  style: TextStyle(fontSize: 20, color: Colors.black38)),
+              child: Text("Aqaar App",
+                  style: TextStyle(fontSize: 30, color: Colors.lime)),
             ),
           )
         ],

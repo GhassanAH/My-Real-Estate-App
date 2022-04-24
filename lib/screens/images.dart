@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../screens/custom_clip.dart';
 import '../model/poster.dart';
 
 class DisplayImages extends StatefulWidget {
@@ -39,22 +39,35 @@ class _DisplayImagesState extends State<DisplayImages> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Post Images"),
-          leading: Builder(
-            builder: (context) => IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                size: 30,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(120),
+          child: AppBar(
+          flexibleSpace: ClipPath(
+          clipper: Custom_clipAppBar(),
+          child: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [Colors.orange, Colors.blue],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight)),
+                ),
+                ),
+            title: Text("Post Images"),
+            leading: Builder(
+              builder: (context) => IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  size: 30,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
               ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
             ),
+            backgroundColor: Colors.white,
+            elevation: 0,
+            centerTitle: true,
           ),
-          backgroundColor: Colors.black87,
-          elevation: 0,
-          centerTitle: true,
         ),
         body: SingleChildScrollView(
             child: Container(

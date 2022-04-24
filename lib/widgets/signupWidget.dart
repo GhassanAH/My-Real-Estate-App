@@ -86,9 +86,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
       body: loading
-          ? SpinKitRotatingCircle(
-              color: Colors.black,
-              size: 50.0,
+          ? SpinKitFadingCircle(
+              color: Colors.blue,
+              size: 100,
             )
           : Container(
               decoration: BoxDecoration(
@@ -109,7 +109,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         child: Column(
                           children: [
                             Text(
-                              "SignUp Now",
+                              "SignUp Page",
                               style: TextStyle(
                                  color: Colors.amber ,fontSize: 30, fontWeight: FontWeight.w800),
                             ),
@@ -276,39 +276,46 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                   icon: Icon(Icons.key,color: Colors.white,)),
                             ),
                             SizedBox(height: 30),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: ListTile(
-                                    title: Text('Seller',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20)),
-                                    leading: Radio<UserType>(
-                                      value: UserType.seller,
-                                      groupValue: _character,
-                                      onChanged: (UserType? value) {
-                                        setState(() {
-                                          _character = value;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-
-                                  child: ListTile(
-                                    title: Text('Buyer',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),),
-                                    leading: Radio<UserType>(
-                                      value: UserType.buyer,
-                                      groupValue: _character,
-                                      onChanged: (UserType? value) {
-                                        setState(() {
-                                          _character = value;
-                                        });
-                                      },
-                                    ),
-
-                                  ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.white30
                                 )
-                              ],
+                              ,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: ListTile(
+                                      title: Text('Seller',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20)),
+                                      leading: Radio<UserType>(
+                                        value: UserType.seller,
+                                        groupValue: _character,
+                                        onChanged: (UserType? value) {
+                                          setState(() {
+                                            _character = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+
+                                    child: ListTile(
+                                      title: Text('Buyer',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),),
+                                      leading: Radio<UserType>(
+                                        value: UserType.buyer,
+                                        groupValue: _character,
+                                        onChanged: (UserType? value) {
+                                          setState(() {
+                                            _character = value;
+                                          });
+                                        },
+                                      ),
+
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                             SizedBox(height: 30),
                             ElevatedButton(

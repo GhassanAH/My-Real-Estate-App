@@ -60,12 +60,12 @@ class _LoginWidgetState extends State<LoginWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-        backgroundColor: Colors.lightBlue[200],
+
         body: loading
-            ? SpinKitRotatingCircle(
-                color: Colors.black,
-                size: 50.0,
-              )
+            ? SpinKitFadingCircle(
+          color: Colors.white,
+          size: 100,
+        )
             : Container(
               decoration: BoxDecoration(
                 image: DecorationImage(

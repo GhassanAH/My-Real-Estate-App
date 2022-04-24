@@ -37,7 +37,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
             },
           ),
         ),
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.blueAccent,
         elevation: 0,
         centerTitle: true,
       ),
