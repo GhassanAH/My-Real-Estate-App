@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/custom_clip.dart';
+import '../utils/custom_clip.dart';
 import '../model/poster.dart';
 
 class DisplayImages extends StatefulWidget {

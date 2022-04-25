@@ -5,10 +5,10 @@ import 'dart:io';
 import '../model/user.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../screens/createPost.dart';
-import '../utils/authentication.dart';
+import '../services/authentication.dart';
 import '../utils/constants.dart';
-import '../utils/uploadImages.dart';
-import '../screens/curve_containe.dart';
+import '../services/uploadImages.dart';
+import '../utils/curve_containe.dart';
 class ProfileWidget extends StatefulWidget {
   String? userId;
 
@@ -33,6 +33,9 @@ class _ProfileWidgetState extends State<ProfileWidget> {
 
   Future<void> getUserInfo() async {
     try {
+      setState(() {
+          loading = true;
+      });
       await auths.getUserInfo(widget.userId!);
 
       setState(() {
@@ -48,25 +51,21 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   }
 
   Future<void> updateType(String? id) async {
-    setState(() {
-      loading = true;
-    });
+
     String statement = await auths.updateUser(id);
 
-    print(statement);
     await getUserInfo();
   }
 
   Future<void> pickImage() async {
     try {
-      setState(() {
-        loading = true;
-      });
       UploadImage imageUploader = UploadImage();
       Userinfo? userWitheImage = await imageUploader.pickProfileImage(userinfo);
       setState(() {
         if (userWitheImage != null) {
           userinfo = userWitheImage;
+          loading = false;
+        }else{
           loading = false;
         }
       });
@@ -85,21 +84,17 @@ class _ProfileWidgetState extends State<ProfileWidget> {
           color: Colors.blue,
           size: 100,
         )
-            : Stack(
-          alignment: Alignment.center,
+            : 
+           ListView(
           children: [
-            CustomPaint(
-              child: Container(
 
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-              ),
-              painter: HeaderCurveLinee(),
-            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(
+              CustomPaint(
+                  child: Column(
+                    children: [
+                      Padding(
                     padding: EdgeInsets.all(20),
                     child: widget.userId!.isEmpty
                         ? Text("Profile details",
@@ -153,6 +148,11 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                         : SizedBox()
                   ],
                 ),
+                    ],
+                  ),
+                  painter: HeaderCurveLinee(),
+                ),
+                
                 Container(
                   height: 434,
                   child: Padding(
@@ -278,226 +278,11 @@ class _ProfileWidgetState extends State<ProfileWidget> {
 
           ],
         )
-
-            // : ListView(
-            //     children: [
-            //       Padding(
-            //         padding: EdgeInsets.all(12.2),
-            //         child: Card(
-            //             shape: RoundedRectangleBorder(
-            //               borderRadius: BorderRadius.circular(15.0),
-            //             ),
-            //             child: Center(
-            //               child: Padding(
-            //                 padding: EdgeInsets.all(12.2),
-            //                 child: Column(
-            //                   children: [
-            //                     SizedBox(
-            //                       height: 70,
-            //                       width: double.infinity,
-            //                       child: Padding(
-            //                         padding: const EdgeInsets.all(8.0),
-            //                         child: Card(
-            //                           color: Colors.black,
-            //                           child: Center(
-            //                               child: widget.userId!.isEmpty
-            //                                   ? Text("My Information",
-            //                                       style: TextStyle(
-            //                                           fontSize: 30,
-            //                                           fontWeight:
-            //                                               FontWeight.w900,
-            //                                           color: Colors.white))
-            //                                   : Text("Seller Information",
-            //                                       style: TextStyle(
-            //                                           fontSize: 30,
-            //                                           fontWeight:
-            //                                               FontWeight.w900,
-            //                                           color: Colors.white))),
-            //                         ),
-            //                       ),
-            //                     ),
-            //                     Stack(
-            //                       children: <Widget>[
-            //                         ClipOval(
-            //                             child: userinfo!.imageUrl.isEmpty
-            //                                 ? Image.asset(
-            //                                     "assets/profile.jpg",
-            //                                     width: 150,
-            //                                     height: 150,
-            //                                     fit: BoxFit.cover,
-            //                                   )
-            //                                 : Image.network(
-            //                                     userinfo!.imageUrl,
-            //                                     width: 150,
-            //                                     height: 150,
-            //                                     fit: BoxFit.cover,
-            //                                   )),
-            //                         widget.userId!.isEmpty
-            //                             ? Positioned(
-            //                                 bottom: 10,
-            //                                 right:
-            //                                     10, //give the values according to your requirement
-            //                                 child: ElevatedButton(
-            //                                   style: ElevatedButton.styleFrom(
-            //                                     primary: Colors.white,
-            //                                     shape: const CircleBorder(),
-            //                                   ),
-            //                                   child: Icon(
-            //                                     Icons.edit,
-            //                                     size: 30,
-            //                                     color: Colors.black,
-            //                                   ),
-            //                                   onPressed: () {
-            //                                     pickImage();
-            //                                   },
-            //                                 ))
-            //                             : SizedBox()
-            //                       ],
-            //                     ),
-            //                     Container(
-            //                       padding: EdgeInsets.all(12.2),
-            //                       child: Column(
-            //                         children: [
-            //                           SizedBox(
-            //                             height: 70,
-            //                             width: double.infinity,
-            //                             child: Card(
-            //                                 elevation: 5,
-            //                                 child: Row(
-            //                                   children: [
-            //                                     Padding(
-            //                                       padding: const EdgeInsets.all(
-            //                                           12.0),
-            //                                       child: Icon(
-            //                                         Icons.person,
-            //                                         size: 30,
-            //                                       ),
-            //                                     ),
-            //                                     Text(
-            //                                       userinfo!.name,
-            //                                       style: TextStyle(
-            //                                           fontSize: 20,
-            //                                           fontWeight:
-            //                                               FontWeight.w700),
-            //                                     ),
-            //                                   ],
-            //                                 )),
-            //                           ),
-            //                           SizedBox(
-            //                             height: 70,
-            //                             width: double.infinity,
-            //                             child: Card(
-            //                                 elevation: 5,
-            //                                 child: Row(
-            //                                   children: [
-            //                                     Padding(
-            //                                       padding: const EdgeInsets.all(
-            //                                           12.0),
-            //                                       child: Icon(
-            //                                         Icons.email,
-            //                                         size: 30,
-            //                                       ),
-            //                                     ),
-            //                                     Text(
-            //                                       userinfo!.email,
-            //                                       style: TextStyle(
-            //                                           fontSize: 20,
-            //                                           fontWeight:
-            //                                               FontWeight.w700),
-            //                                     ),
-            //                                   ],
-            //                                 )),
-            //                           ),
-            //                           SizedBox(
-            //                             height: 70,
-            //                             width: double.infinity,
-            //                             child: Card(
-            //                                 elevation: 5,
-            //                                 child: Row(
-            //                                   children: [
-            //                                     Padding(
-            //                                       padding: const EdgeInsets.all(
-            //                                           12.0),
-            //                                       child: Icon(
-            //                                         Icons.phone,
-            //                                         size: 30,
-            //                                       ),
-            //                                     ),
-            //                                     Text(
-            //                                       userinfo!.phoneNumber,
-            //                                       style: TextStyle(
-            //                                           fontSize: 20,
-            //                                           fontWeight:
-            //                                               FontWeight.w700),
-            //                                     ),
-            //                                   ],
-            //                                 )),
-            //                           ),
-            //                           SizedBox(
-            //                             height: 70,
-            //                             width: double.infinity,
-            //                             child: Card(
-            //                                 elevation: 5,
-            //                                 child: Row(
-            //                                   children: [
-            //                                     Padding(
-            //                                       padding: const EdgeInsets.all(
-            //                                           12.0),
-            //                                       child: Icon(
-            //                                         Icons.work,
-            //                                         size: 30,
-            //                                       ),
-            //                                     ),
-            //                                     Text(
-            //                                       userinfo!.type,
-            //                                       style: TextStyle(
-            //                                           fontSize: 20,
-            //                                           fontWeight:
-            //                                               FontWeight.w700),
-            //                                     ),
-            //                                   ],
-            //                                 )),
-            //                           ),
-            //                           SizedBox(
-            //                             height: 70,
-            //                             width: double.infinity,
-            //                             child: Card(
-            //                                 elevation: 5,
-            //                                 child: Row(
-            //                                   children: [
-            //                                     Padding(
-            //                                       padding: const EdgeInsets.all(
-            //                                           12.0),
-            //                                       child: Icon(
-            //                                         Icons.verified_user,
-            //                                         size: 30,
-            //                                       ),
-            //                                     ),
-            //                                     Text(
-            //                                       userinfo!.username,
-            //                                       style: TextStyle(
-            //                                           fontSize: 20,
-            //                                           fontWeight:
-            //                                               FontWeight.w700),
-            //                                     ),
-            //                                   ],
-            //                                 )),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                     )
-            //                   ],
-            //                 ),
-            //               ),
-            //             )),
-            //       )
-            //     ],
-            //   ),
-        
+            
         ,floatingActionButton: widget.userId!.isEmpty &&
                 userinfo?.type == "seller"
             ? FloatingActionButton(
-                backgroundColor: Colors.black,
+                backgroundColor: Colors.blue,
                 onPressed: (() {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       //new
@@ -511,7 +296,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
               )
             : widget.userId!.isEmpty &&
                 userinfo?.type == "buyer"? RaisedButton(
-                color: Colors.black,
+                color: Colors.blue,
                 textColor: Colors.white,
                 onPressed: () {
                   updateType(userinfo?.id);

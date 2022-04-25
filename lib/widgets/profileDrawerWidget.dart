@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../utils/authentication.dart';
+import '../services/authentication.dart';
 import '../utils/constants.dart';
 import './profileWdiget.dart';
 

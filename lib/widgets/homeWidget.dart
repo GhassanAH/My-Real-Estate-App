@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:realestateapp/screens/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:realestateapp/utils/authentication.dart';
+import '../services/authentication.dart';
 import 'package:realestateapp/widgets/profileWdiget.dart';
 import '../model/poster.dart';
 import '../screens/images.dart';
 import '../screens/location.dart';
 import '../screens/viewSellerInfo.dart';
 import '../utils/constants.dart';
-import '../utils/posterServices.dart';
-import '../screens/custom_clip.dart';
+import '../services/posterServices.dart';
+import '../utils/custom_clip.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({Key? key}) : super(key: key);
@@ -144,193 +144,210 @@ class _HomeWidgetState extends State<HomeWidget> {
                 fit: BoxFit.cover,
                 image: AssetImage('assets/wallpaper.jpg'))),
         child: ListView(
-          children: posters.map((post) {
-            return Padding(
-              padding: const EdgeInsets.all(0),
-              child: Card(
-                shadowColor: Colors.grey.withOpacity(0.5),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50.0),
-                ),
-                child: Container(
-                  height: 450,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                          top: 0,
-                          left: 0,
-                          right: 1,
-                          child: Card(
-                            elevation: 10,
-                            shadowColor: Colors.grey.withOpacity(0.6),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50)
-                            ),
+          children: [
+            Align(
+                 alignment: Alignment.topRight,
+                 child:  DropdownButton(
+                    value: selected,
+                    hint: Text("filter posters"),
+                    onChanged: (newValue) {
+                      if (newValue == "Sort Poster by high price") {
+                        highPrice();
+                      } else {
+                        smallPrice();
+                      }
+                    },
+                    items: choices.map((choice) {
+                      return DropdownMenuItem(
+                        child: Text(choice),
+                        value: choice,
+                      );
+                    }).toList()
+                    ),
+               ),
+
+            Column(
+              children: posters.map((post) {
+                return Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: Card(
+                    shadowColor: Colors.grey.withOpacity(0.5),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50.0),
+                    ),
+                    child: Container(
+                      height: 450,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                              top: 0,
+                              left: 0,
+                              right: 1,
+                              child: Card(
+                                elevation: 10,
+                                shadowColor: Colors.grey.withOpacity(0.6),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50)
+                                ),
+                                child: Container(
+                                  height: 200,
+                                  width: 350,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50),
+                                      image: DecorationImage(
+                                          fit: BoxFit.fill,
+                                          image: NetworkImage(post.img0!)
+                                      )
+                                  ),
+                                ),
+                              )),
+                          Positioned(
+                            top: 20,
+                            left: 50,
                             child: Container(
-                              height: 200,
-                              width: 350,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  image: DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image: NetworkImage(post.img0!)
-                                  )
-                              ),
+                              child: Text(post.name!, style: TextStyle(fontSize: 40),),
                             ),
-                          )),
-                      Positioned(
-                        top: 220,
-                        left: 20,
-                        child: Container(
-                          child: Text(post.name!),
-                        ),
-                      ),
-                      Positioned(
+                          ),
 
+                          Positioned(
+                              top: 260,
+                              left: 60,
+                              child: Column(
+                                children:[
+                                  ImageIcon( AssetImage('assets/icon1.png'),color: Colors.blue,size: 30,),
+                                  Text(post.type!),
+                                  Text('type',style: TextStyle(fontSize: 12,color: Colors.teal),)
+                                ]
+                              )),
 
-                        child: Divider(
-                          thickness: 2,
-                          indent: 1,
-                          endIndent: 100,
-                          color: Colors.teal,
-                        ),
-                      ),
-                      Positioned(
-                          top: 260,
-                          left: 45,
-                          child: Column(
-                            children:[
-                              ImageIcon( AssetImage('assets/icon1.png'),color: Colors.blue,size: 30,),
-                              Text(post.type!),
-                              Text('type',style: TextStyle(fontSize: 12,color: Colors.teal),)
-                            ]
-                          )),
+                          Positioned(
+                              top: 260,
+                              left: 180,
+                              child: Column(
+                                children:[
+                                  ImageIcon(AssetImage('assets/priceIcon.png'),color: Colors.blue,size: 30,),
+                                  Text(post.price!),
+                                  Text('OMR',style: TextStyle(fontSize: 12,color: Colors.teal),)
+                                ]
+                              )),
 
-                      Positioned(
-                          top: 260,
-                          left: 260,
-                          child: Column(
-                            children:[
-                              ImageIcon(AssetImage('assets/priceIcon.png'),color: Colors.blue,size: 30,),
-                              Text(post.price!),
-                              Text('OMR',style: TextStyle(fontSize: 12,color: Colors.teal),)
-                            ]
-                          )),
+                          Positioned(
+                              top: 260,
+                              left: 300,
+                              child: Column(
+                                children:[
+                                  ImageIcon(AssetImage('assets/locationIcon.png'),color: Colors.blue,size: 30,),
+                                  Text(post.governorate!),
+                                  Text('location',style: TextStyle(fontSize: 12,color: Colors.teal),)
+                                ]
+                              )),
 
-                      Positioned(
-                          top: 260,
-                          left: 160,
-                          child: Column(
-                            children:[
-                              ImageIcon(AssetImage('assets/locationIcon.png'),color: Colors.blue,size: 30,),
-                              Text(post.governorate!),
-                              Text('location',style: TextStyle(fontSize: 12,color: Colors.teal),)
-                            ]
-                          )),
+                          Positioned(
+                              top: 342,
+                              left: 50,
+                              child: Row(
+                                
+                                children:[
+                                  ImageIcon(AssetImage('assets/editIcon.png'),color: Colors.blue,size: 30,),
+                                  SizedBox(width: 10,),
+                                  Text(post.description!),
+                                ]
+                              )),
 
-                      Positioned(
-                          top: 342,
-                          left: 20,
-                          child: Row(
-                            children:[
-                              ImageIcon(AssetImage('assets/editIcon.png'),color: Colors.blue,size: 30,),
-                              SizedBox(width: 10,),
-                              Text(post.description!),
-                            ]
-                          )),
+                          Positioned(
+                              top: 380,
+                              left: 20,
+                              child: Container(
+                                child: Ink(
+                                  decoration: ShapeDecoration(
+                                      color: Colors.lightBlue,
+                                      shape: CircleBorder()
+                                  ),
+                                  child: IconButton(
+                                    onPressed: (){
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                location(
+                                                  post: post,
+                                                )),
+                                      );
+                                    },
+                                    icon: ImageIcon(AssetImage('assets/searchIcon.png'),color: Colors.white,size: 30,),
+                                    iconSize: 30,
+                                    color: Colors.white,
 
-                      Positioned(
-                          top: 380,
-                          left: 20,
-                          child: Container(
-                            child: Ink(
-                              decoration: ShapeDecoration(
-                                  color: Colors.lightBlue,
-                                  shape: CircleBorder()
-                              ),
-                              child: IconButton(
-                                onPressed: (){
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            location(
-                                              post: post,
-                                            )),
-                                  );
-                                },
-                                icon: ImageIcon(AssetImage('assets/profileIcon.png'),color: Colors.white,size: 30,),
-                                iconSize: 30,
-                                color: Colors.white,
-
-                              ),
-                            ),
-                          )),
-                      Positioned(
-                          top:380 ,
-                          left: 90,
-                          child: Container(
-                            child: Ink(
-                                decoration: ShapeDecoration(
-                                    color: Colors.lightBlue,
-                                    shape: CircleBorder()
+                                  ),
                                 ),
-                                child: IconButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ViewSellerScreen(
-                                                  post: post
-                                              )),
-                                    );
+                              )),
+                          Positioned(
+                              top:380 ,
+                              left: 340,
+                              child: Container(
+                                child: Ink(
+                                    decoration: ShapeDecoration(
+                                        color: Colors.lightBlue,
+                                        shape: CircleBorder()
+                                    ),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ViewSellerScreen(
+                                                      post: post
+                                                  )),
+                                        );
 
-                                  },
-                                  icon: ImageIcon(AssetImage('assets/searchIcon.png'),color: Colors.white,size: 30,),
-                                  iconSize: 30,
-                                  color: Colors.white,
-                                )
+                                      },
+                                      icon: ImageIcon(AssetImage('assets/profileIcon.png'),color: Colors.white,size: 30,),
+                                      iconSize: 30,
+                                      color: Colors.white,
+                                    )
 
 
-                            ),
-                          )),
-                      Positioned(
-                          top:150 ,
-                          left: 290,
-                          child: Container(
-                            child: Ink(
-                                decoration: ShapeDecoration(
-                                    color: Colors.lightBlue,
-                                    shape: CircleBorder()
                                 ),
-                                child: IconButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              DisplayImages(
-                                                  post: post
-                                              )),
-                                    );
+                              )),
+                          Positioned(
+                              top:150 ,
+                              left: 350,
+                              child: Container(
+                                child: Ink(
+                                    decoration: ShapeDecoration(
+                                        color: Colors.lightBlue,
+                                        shape: CircleBorder()
+                                    ),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DisplayImages(
+                                                      post: post
+                                                  )),
+                                        );
 
-                                  },
-                                  icon: Icon(Icons.image),
-                                  iconSize: 30,
-                                  color: Colors.white,
-                                )
+                                      },
+                                      icon: Icon(Icons.image),
+                                      iconSize: 30,
+                                      color: Colors.white,
+                                    )
 
 
-                            ),
-                          ))
-                    ],
+                                ),
+                              ))
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ),
 
-            );
+                );
           }).toList(),
+            )
+          ]
 
         ),
       )

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../utils/uploadImages.dart';
-import '../screens/curve_containe.dart';
+import '../services/uploadImages.dart';
+import '../utils/curve_containe.dart';
 Widget imageContainer(String title) {
   return Padding(
     padding: const EdgeInsets.all(8.0),

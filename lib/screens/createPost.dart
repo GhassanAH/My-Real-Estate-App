@@ -7,8 +7,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:realestateapp/model/poster.dart';
 import '../utils/constants.dart';
-import '../utils/uploadImages.dart';
-import '../utils/posterServices.dart';
+import '../services/uploadImages.dart';
+import '../services/posterServices.dart';
 
 class CreatePost extends StatefulWidget {
   String? uid;
@@ -177,14 +177,14 @@ class _CreatePostState extends State<CreatePost> {
             },
           ),
         ),
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.blueAccent,
         elevation: 0,
         centerTitle: true,
       ),
       body: loading
-          ? SpinKitRotatingCircle(
-              color: Colors.black,
-              size: 50.0,
+          ? SpinKitFadingCircle(
+              color: Colors.blue,
+              size: 100,
             )
           : ListView(
               children: [

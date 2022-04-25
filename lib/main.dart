@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:realestateapp/screens/createPost.dart';
 import 'package:realestateapp/screens/home.dart';
@@ -29,7 +30,9 @@ class MyApp extends StatelessWidget {
       title: 'My Real Estate',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: "SecularOne-Regular",
         textTheme: const TextTheme(
+
             headline1: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
             headline6: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
             bodyText2: TextStyle(fontSize: 18.0),
@@ -37,7 +40,7 @@ class MyApp extends StatelessWidget {
       ),
       
       routes: {
-        "/": (context) => Login(),
+        "/": (context) => FirebaseAuth.instance.currentUser == null ?Login():Home() ,
         "/home": (context) => Home(),
         "/signUp": (context) => SignUp(),
         "/profile": (context) => Profile(),

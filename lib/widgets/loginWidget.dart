@@ -63,9 +63,9 @@ class _LoginWidgetState extends State<LoginWidget> {
 
         body: loading
             ? SpinKitFadingCircle(
-          color: Colors.white,
-          size: 100,
-        )
+              color: Colors.blue,
+              size: 100,
+            )
             : Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -77,7 +77,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               child: Center(
                   child: Container(
                       width: double.infinity,
-                      height: 500,
+                      height: double.infinity,
                       padding: EdgeInsets.all(0),
                       child: ListView(
                         children: [

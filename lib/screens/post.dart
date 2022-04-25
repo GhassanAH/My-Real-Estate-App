@@ -7,7 +7,7 @@ import 'package:realestateapp/screens/location.dart';
 
 import '../model/poster.dart';
 import '../utils/constants.dart';
-import '../utils/posterServices.dart';
+import '../services/posterServices.dart';
 import 'images.dart';
 
 class Post extends StatefulWidget {
@@ -70,14 +70,14 @@ class _PostState extends State<Post> {
             },
           ),
         ),
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.blueAccent,
         elevation: 0,
         centerTitle: true,
       ),
       body: loading
-          ? SpinKitRotatingCircle(
-              color: Colors.black,
-              size: 50.0,
+          ? SpinKitFadingCircle(
+              color: Colors.blue,
+              size: 100,
             )
           : ListView(
               children: posters.map((post) {
@@ -118,7 +118,7 @@ class _PostState extends State<Post> {
                                 children: [
                                   CardHeading(Icon(Icons.house),post.type!,50),
                                   CardHeading(Icon(Icons.place),post.governorate!,50),
-                                  CardHeading(Icon(Icons.money),post.price!,50),
+                                  CardHeading(Icon(Icons.money),post.price!+" OMR",50),
                                   CardHeading(Icon(Icons.money_off_csred_sharp),post.description!,50),
                              
                           

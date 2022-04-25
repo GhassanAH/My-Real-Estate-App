@@ -52,7 +52,7 @@ class _locationState extends State<location> {
               },
             ),
           ),
-          backgroundColor: Colors.black87,
+          backgroundColor: Colors.blueAccent,
           elevation: 0,
           centerTitle: true,
         ),
